@@ -23,6 +23,7 @@ namespace KatAM_Object_Editor
                 ConfigIniFile config = new ConfigIniFile($@"{AppDomain.CurrentDomain.BaseDirectory}\config.ini");
 
                 config.WriteValue("Misc", "UseHex", "false");
+                config.WriteValue("Misc", "ShowWarning", "true");
                 config.WriteValue("Params", "ShowAdresses", "false");
             }
         }
