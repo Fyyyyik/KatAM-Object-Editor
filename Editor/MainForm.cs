@@ -1,5 +1,6 @@
 using KatAM_Object_Editor.Editor;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -9,6 +10,8 @@ namespace KatAM_Object_Editor
     {
         public bool showAdresses;
         public bool useHex;
+
+        public bool hasCancelledSave;
 
         public string openedFilePath;
         public string openedFileVersion;
@@ -139,7 +142,7 @@ namespace KatAM_Object_Editor
                 "Sliding Pillar (113)",
                 "Boss Endurance Mirror (114)",
                 "??? (115)",
-                "??? (116)",
+                "Crumbling Block (116)",
                 "??? (117)",
                 "??? (118)",
                 "Camera Locker Object (119)",
@@ -280,6 +283,15 @@ namespace KatAM_Object_Editor
                 showAddressesToolStripMenuItem.Checked = true;
                 showAdresses = true;
             }
+
+            if(config.ReadValue("Misc", "ShowWarning") == "false")
+            {
+                showWarningWhenSavingToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                showWarningWhenSavingToolStripMenuItem.Checked = true;
+            }
         }
 
         private void btn_objectedit_Click(object sender, EventArgs e)
@@ -329,6 +341,7 @@ namespace KatAM_Object_Editor
 
             using (FileDialog dialog = new OpenFileDialog())
             {
+                dialog.Filter = "KatAM ROM (*.gba)|*.gba|All Files (*.*)|*.*";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     openedFilePath = dialog.FileName;
@@ -339,14 +352,36 @@ namespace KatAM_Object_Editor
             }
 
             saveToolStripMenuItem.Enabled = true;
+
+            UpdatePreferencesTab();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult confirm = MessageBox.Show("Make sure you backuped up your ROM! Saving will PERMANENTLY change certain bytes.", "Careful!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-            if (confirm == DialogResult.Cancel)
+            if(openedFilePath == "")
             {
+                MessageBox.Show("No file was inputted! Open a KatAM ROM first and do some changes.", "Huh?", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
+            }
+
+            if(File.Exists(openedFilePath) == false)
+            {
+                MessageBox.Show("File was not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            ConfigIniFile config = new ConfigIniFile(iniFilePath);
+            if (config.ReadValue("Misc", "ShowWarning") == "true")
+            {
+                DialogConfirmSave dialogConfirm = new DialogConfirmSave(this);
+                dialogConfirm.ShowDialog();
+
+                UpdatePreferencesTab();
+
+                if (hasCancelledSave)
+                {
+                    return;
+                }
             }
 
             Cursor = Cursors.WaitCursor;
@@ -410,6 +445,22 @@ namespace KatAM_Object_Editor
             }
         }
 
+        private void showWarningWhenSavingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigIniFile config = new ConfigIniFile(iniFilePath);
+
+            if (showWarningWhenSavingToolStripMenuItem.Checked)
+            {
+                showWarningWhenSavingToolStripMenuItem.Checked = false;
+                config.WriteValue("Misc", "ShowWarning", "false");
+            }
+            else
+            {
+                showWarningWhenSavingToolStripMenuItem.Checked = true;
+                config.WriteValue("Misc", "ShowWarning", "true");
+            }
+        }
+
         private void documentationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult confirm = MessageBox.Show("This will open the url https://docs.google.com/document/d/1Qq5E7htD9IR6VcgRAJH2OfcGSzoqnm_t8gRmuONw8TU/edit?usp=sharing in your default web browser. Do you want to proceed?", "Vyroz is really cool!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
@@ -432,6 +483,38 @@ namespace KatAM_Object_Editor
             {
                 url = url.Replace("&", "^&");
                 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+        }
+
+        void UpdatePreferencesTab()
+        {
+            ConfigIniFile config = new ConfigIniFile(iniFilePath);
+
+            if(config.ReadValue("Misc", "UseHex") == "false")
+            {
+                useHexToolStripMenuItem.Checked = false;
+            }
+            else 
+            {
+                useHexToolStripMenuItem.Checked = true;
+            }
+
+            if(config.ReadValue("Misc", "ShowWarning") == "false")
+            {
+                showWarningWhenSavingToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                showWarningWhenSavingToolStripMenuItem.Checked = true;
+            }
+
+            if(config.ReadValue("Params", "ShowAdresses") == "false")
+            {
+                showAddressesToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                showAddressesToolStripMenuItem.Checked = true;
             }
         }
 

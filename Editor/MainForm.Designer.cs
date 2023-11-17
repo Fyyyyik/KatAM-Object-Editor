@@ -40,6 +40,7 @@
             panel_main = new Panel();
             btn_objectedit = new Button();
             btn_roomedit = new Button();
+            showWarningWhenSavingToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,7 +76,7 @@
             // 
             // preferencesToolStripMenuItem
             // 
-            preferencesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { showAddressesToolStripMenuItem, useHexToolStripMenuItem });
+            preferencesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { showAddressesToolStripMenuItem, useHexToolStripMenuItem, showWarningWhenSavingToolStripMenuItem });
             preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
             preferencesToolStripMenuItem.Size = new Size(80, 20);
             preferencesToolStripMenuItem.Text = "Preferences";
@@ -83,14 +84,14 @@
             // showAddressesToolStripMenuItem
             // 
             showAddressesToolStripMenuItem.Name = "showAddressesToolStripMenuItem";
-            showAddressesToolStripMenuItem.Size = new Size(157, 22);
+            showAddressesToolStripMenuItem.Size = new Size(218, 22);
             showAddressesToolStripMenuItem.Text = "Show addresses";
             showAddressesToolStripMenuItem.Click += showAddressesToolStripMenuItem_Click;
             // 
             // useHexToolStripMenuItem
             // 
             useHexToolStripMenuItem.Name = "useHexToolStripMenuItem";
-            useHexToolStripMenuItem.Size = new Size(157, 22);
+            useHexToolStripMenuItem.Size = new Size(218, 22);
             useHexToolStripMenuItem.Text = "Use hex";
             useHexToolStripMenuItem.Click += useHexToolStripMenuItem_Click;
             // 
@@ -128,6 +129,13 @@
             btn_roomedit.UseVisualStyleBackColor = true;
             btn_roomedit.Click += btn_roomedit_Click;
             // 
+            // showWarningWhenSavingToolStripMenuItem
+            // 
+            showWarningWhenSavingToolStripMenuItem.Name = "showWarningWhenSavingToolStripMenuItem";
+            showWarningWhenSavingToolStripMenuItem.Size = new Size(218, 22);
+            showWarningWhenSavingToolStripMenuItem.Text = "Show warning when saving";
+            showWarningWhenSavingToolStripMenuItem.Click += showWarningWhenSavingToolStripMenuItem_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -163,5 +171,6 @@
         private ToolStripMenuItem documentationToolStripMenuItem;
         private ToolStripMenuItem showAddressesToolStripMenuItem;
         private ToolStripMenuItem useHexToolStripMenuItem;
+        private ToolStripMenuItem showWarningWhenSavingToolStripMenuItem;
     }
 }

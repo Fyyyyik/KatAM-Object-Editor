@@ -44,11 +44,6 @@ namespace KatAM_Object_Editor
             labelAdress.Text = "";
         }
 
-        private void comboBoxRoomSort_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void listBoxRooms_SelectedIndexChanged(object sender, EventArgs e)
         {
             labelAdress.Text = "";
@@ -62,8 +57,6 @@ namespace KatAM_Object_Editor
             {
                 listBoxRoomObjs.Items.Add(obj);
             }
-
-            UpdateObjects();
         }
 
         private void listBoxRoomObjs_SelectedIndexChanged(object sender, EventArgs e)
@@ -115,6 +108,7 @@ namespace KatAM_Object_Editor
         private void numericUpDownid_ValueChanged(object sender, EventArgs e)
         {
             WriteValueToSavedList();
+            UpdateObjects();
         }
 
         private void numericUpDownBehaviour_ValueChanged(object sender, EventArgs e)
@@ -122,16 +116,24 @@ namespace KatAM_Object_Editor
             WriteValueToSavedList();
         }
 
+        private void numericUpDownSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            WriteValueToSavedList();
+        }
+
         void WriteValueToSavedList()
         {
-            Debug.WriteLine("WriteValueToSavedList : started");
             if (isUpdate)
             {
                 isUpdate = false;
                 return;
             }
 
-            UpdateObjects();
+            if (listBoxRoomObjs.SelectedIndices.Count == 0)
+            {
+
+            }
+
             foreach (List<long> parameters in mainFormInstance.changedLevels)
             {
                 if (parameters[0] == objOffsetsOfRoom[listBoxRoomObjs.SelectedIndices[0]])
@@ -140,34 +142,31 @@ namespace KatAM_Object_Editor
                     parameters[2] = (long)numericUpDownVertical.Value;
                     parameters[3] = (long)numericUpDownid.Value;
                     parameters[4] = (long)numericUpDownBehaviour.Value;
+                    parameters[5] = (long)numericUpDownSpeed.Value;
                     return;
                 }
             }
-            mainFormInstance.changedLevels.Add(new List<long> { objOffsetsOfRoom[listBoxRoomObjs.SelectedIndices[0]], (long)numericUpDownHorizontal.Value, (long)numericUpDownVertical.Value, (long)numericUpDownid.Value, (long)numericUpDownBehaviour.Value });
+            mainFormInstance.changedLevels.Add(new List<long> { objOffsetsOfRoom[listBoxRoomObjs.SelectedIndices[0]], (long)numericUpDownHorizontal.Value, (long)numericUpDownVertical.Value, (long)numericUpDownid.Value, (long)numericUpDownBehaviour.Value, (long)numericUpDownSpeed.Value });
         }
 
         void UpdateObjects()
         {
-            return;
-
-
-            LevelDataManager levelDataManager = new LevelDataManager();
-            List<int> objIds = new List<int>();
-            for (int i = 0; i < listBoxRoomObjs.Items.Count; i++)
-            {
-                List<int> properties = new List<int>(levelDataManager.GetObjectProperties(mainFormInstance, objOffsetsOfRoom[i]));
-                objIds.Add(properties[2]);
-            }
-
-            isUpdate = true;
-            for (int i = 0; i < listBoxRoomObjs.Items.Count; i++)
-            {
-                //listBoxRoomObjs.Items[i] = listItems[objIds[i]];
-            }
+            Debug.WriteLine("Updated objects");
         }
 
         void DisplayProperties(List<int> properties)
         {
+            int i = 0;
+            foreach (List<long> parameters in mainFormInstance.changedLevels)
+            {
+                Debug.WriteLine($"Iteration {i}");
+                foreach (long value in parameters)
+                {
+                    Debug.WriteLine(value);
+                }
+                i++;
+            }
+
             isSelectIndexChanged = true;
             // X position
             try
@@ -207,6 +206,16 @@ namespace KatAM_Object_Editor
             catch
             {
                 MessageBox.Show("The value for the behaviour has not been found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Speed
+            try
+            {
+                numericUpDownSpeed.Value = properties[4];
+            }
+            catch
+            {
+                MessageBox.Show("The value for the speed has not been found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

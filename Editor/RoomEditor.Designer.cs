@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             panelRoomMain = new Panel();
             labelRoomGameobj = new Label();
             listBoxRooms = new ListBox();
@@ -36,6 +37,8 @@
             buttonObjectList = new Button();
             listBoxRoomObjs = new ListBox();
             panelProperties = new Panel();
+            numericUpDownSpeed = new NumericUpDown();
+            labelSpeed = new Label();
             label1 = new Label();
             numericUpDownBehaviour = new NumericUpDown();
             numericUpDownHorizontal = new NumericUpDown();
@@ -46,9 +49,11 @@
             labelObjid = new Label();
             labelRoomObjects = new Label();
             labelRoomMain = new Label();
+            toolTip1 = new ToolTip(components);
             panelRoomMain.SuspendLayout();
             panelRoomControl.SuspendLayout();
             panelProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSpeed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownBehaviour).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownHorizontal).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownid).BeginInit();
@@ -112,7 +117,7 @@
             // buttonObjectList
             // 
             buttonObjectList.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonObjectList.Location = new Point(486, 418);
+            buttonObjectList.Location = new Point(500, 427);
             buttonObjectList.Name = "buttonObjectList";
             buttonObjectList.Size = new Size(112, 27);
             buttonObjectList.TabIndex = 14;
@@ -133,6 +138,8 @@
             // panelProperties
             // 
             panelProperties.BorderStyle = BorderStyle.FixedSingle;
+            panelProperties.Controls.Add(numericUpDownSpeed);
+            panelProperties.Controls.Add(labelSpeed);
             panelProperties.Controls.Add(label1);
             panelProperties.Controls.Add(numericUpDownBehaviour);
             panelProperties.Controls.Add(numericUpDownHorizontal);
@@ -141,10 +148,31 @@
             panelProperties.Controls.Add(numericUpDownid);
             panelProperties.Controls.Add(numericUpDownVertical);
             panelProperties.Controls.Add(labelObjid);
-            panelProperties.Location = new Point(378, 66);
+            panelProperties.Location = new Point(378, 51);
             panelProperties.Name = "panelProperties";
-            panelProperties.Size = new Size(127, 298);
+            panelProperties.Size = new Size(127, 358);
             panelProperties.TabIndex = 12;
+            // 
+            // numericUpDownSpeed
+            // 
+            numericUpDownSpeed.Location = new Point(12, 324);
+            numericUpDownSpeed.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUpDownSpeed.Name = "numericUpDownSpeed";
+            numericUpDownSpeed.RightToLeft = RightToLeft.No;
+            numericUpDownSpeed.Size = new Size(86, 23);
+            numericUpDownSpeed.TabIndex = 13;
+            toolTip1.SetToolTip(numericUpDownSpeed, "Appears to make Gordos really fast when\r\nput at a high value but makes basically\r\neverything else stop moving by putting\r\nit to something else than 0.\r\nNeeds more info to specify exact use.");
+            numericUpDownSpeed.ValueChanged += numericUpDownSpeed_ValueChanged;
+            // 
+            // labelSpeed
+            // 
+            labelSpeed.AutoSize = true;
+            labelSpeed.Location = new Point(12, 306);
+            labelSpeed.Name = "labelSpeed";
+            labelSpeed.Size = new Size(44, 15);
+            labelSpeed.TabIndex = 12;
+            labelSpeed.Text = "Speed?";
+            toolTip1.SetToolTip(labelSpeed, "Appears to make Gordos really fast when\r\nput at a high value but makes basically\r\neverything else stop moving by putting\r\nit to something else than 0.\r\nNeeds more info to specify exact use.");
             // 
             // label1
             // 
@@ -154,25 +182,28 @@
             label1.Size = new Size(91, 15);
             label1.TabIndex = 6;
             label1.Text = "Vertical position";
+            toolTip1.SetToolTip(label1, "The position of the object on the Y axis.\r\nThe lower it is, the higher it will be.");
             // 
             // numericUpDownBehaviour
             // 
             numericUpDownBehaviour.Location = new Point(12, 246);
-            numericUpDownBehaviour.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
+            numericUpDownBehaviour.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numericUpDownBehaviour.Name = "numericUpDownBehaviour";
             numericUpDownBehaviour.RightToLeft = RightToLeft.No;
             numericUpDownBehaviour.Size = new Size(86, 23);
             numericUpDownBehaviour.TabIndex = 11;
+            toolTip1.SetToolTip(numericUpDownBehaviour, "Decides how the object should act.\r\nExact use varies depending on the object.");
             numericUpDownBehaviour.ValueChanged += numericUpDownBehaviour_ValueChanged;
             // 
             // numericUpDownHorizontal
             // 
             numericUpDownHorizontal.Location = new Point(12, 29);
-            numericUpDownHorizontal.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
+            numericUpDownHorizontal.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numericUpDownHorizontal.Name = "numericUpDownHorizontal";
             numericUpDownHorizontal.RightToLeft = RightToLeft.No;
             numericUpDownHorizontal.Size = new Size(86, 23);
             numericUpDownHorizontal.TabIndex = 4;
+            toolTip1.SetToolTip(numericUpDownHorizontal, "The position of the object on the X axis.\r\nThe lower it is, the further to the left\r\nit will be.");
             numericUpDownHorizontal.ValueChanged += numericUpDownHorizontal_ValueChanged;
             // 
             // labelBehaviour
@@ -183,6 +214,7 @@
             labelBehaviour.Size = new Size(60, 15);
             labelBehaviour.TabIndex = 10;
             labelBehaviour.Text = "Behaviour";
+            toolTip1.SetToolTip(labelBehaviour, "Decides how the object should act.\r\nExact use varies depending on the object.");
             // 
             // labelHorizontal
             // 
@@ -192,25 +224,28 @@
             labelHorizontal.Size = new Size(108, 15);
             labelHorizontal.TabIndex = 5;
             labelHorizontal.Text = "Horizontal position";
+            toolTip1.SetToolTip(labelHorizontal, "The position of the object on the X axis.\r\nThe lower it is, the further to the left\r\nit will be.");
             // 
             // numericUpDownid
             // 
             numericUpDownid.Location = new Point(12, 170);
-            numericUpDownid.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
+            numericUpDownid.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numericUpDownid.Name = "numericUpDownid";
             numericUpDownid.RightToLeft = RightToLeft.No;
             numericUpDownid.Size = new Size(86, 23);
             numericUpDownid.TabIndex = 9;
+            toolTip1.SetToolTip(numericUpDownid, "Represents what object should spawn.\r\nYou can see a full list of objects by\r\nclicking the \"Open object list\" button.");
             numericUpDownid.ValueChanged += numericUpDownid_ValueChanged;
             // 
             // numericUpDownVertical
             // 
             numericUpDownVertical.Location = new Point(12, 99);
-            numericUpDownVertical.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
+            numericUpDownVertical.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numericUpDownVertical.Name = "numericUpDownVertical";
             numericUpDownVertical.RightToLeft = RightToLeft.No;
             numericUpDownVertical.Size = new Size(86, 23);
             numericUpDownVertical.TabIndex = 7;
+            toolTip1.SetToolTip(numericUpDownVertical, "The position of the object on the Y axis.\r\nThe lower it is, the higher it will be.");
             numericUpDownVertical.ValueChanged += numericUpDownVertical_ValueChanged;
             // 
             // labelObjid
@@ -221,6 +256,7 @@
             labelObjid.Size = new Size(56, 15);
             labelObjid.TabIndex = 8;
             labelObjid.Text = "Object ID";
+            toolTip1.SetToolTip(labelObjid, "Represents what object should spawn.\r\nYou can see a full list of objects by\r\nclicking the \"Open object list\" button.");
             // 
             // labelRoomObjects
             // 
@@ -256,6 +292,7 @@
             panelRoomControl.PerformLayout();
             panelProperties.ResumeLayout(false);
             panelProperties.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSpeed).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownBehaviour).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownHorizontal).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownid).EndInit();
@@ -284,5 +321,8 @@
         private ListBox listBoxRoomObjs;
         private Button buttonObjectList;
         private Label labelAdress;
+        private NumericUpDown numericUpDownSpeed;
+        private Label labelSpeed;
+        private ToolTip toolTip1;
     }
 }

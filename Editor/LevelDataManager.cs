@@ -278,6 +278,8 @@ namespace KatAM_Object_Editor.Editor
                 properties.Add(fs.ReadByte());
                 fs.Seek(0x1, SeekOrigin.Current);
                 properties.Add(fs.ReadByte());
+                fs.Seek(0x1, SeekOrigin.Current);
+                properties.Add(fs.ReadByte());
             }
 
             return properties;
@@ -295,7 +297,26 @@ namespace KatAM_Object_Editor.Editor
                 fs.WriteByte((byte)properties[2]);
                 fs.Seek(offset + 14, SeekOrigin.Begin);
                 fs.WriteByte((byte)properties[3]);
+                fs.Seek(offset + 16, SeekOrigin.Begin);
+                fs.WriteByte((byte)properties[4]);
             }
+        }
+
+        public void FuckUpTheRom(MainForm mainFormRef)
+        {
+            // You asked for this Vyroz :3
+            // Simply takes a random integers and fucks up the rom with random values everywhere :3
+
+            FileStream fs = new FileStream(mainFormRef.openedFilePath, FileMode.Open, FileAccess.Write);
+
+            Random rnd = new Random();
+            int maxIterations = rnd.Next(1000);
+            for(int i = 0; i < maxIterations; i++)
+            {
+                fs.Seek(rnd.NextInt64(43531934), SeekOrigin.Begin);
+                fs.WriteByte((byte)rnd.Next(254));
+            }
+            MessageBox.Show("Whoopsie! I fwucked up the rom! Pwease pwadon meeeee", "sans", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         static long GetFirstRoomObjectOffset(MainForm mainFormRef)

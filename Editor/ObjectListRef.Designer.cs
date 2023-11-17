@@ -50,7 +50,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "ObjectListRef";
-            Text = "ObjectListRef";
+            Text = "List of objects";
             Load += ObjectListRef_Load;
             ResumeLayout(false);
         }

@@ -65,6 +65,16 @@ namespace KatAM_Object_Editor
             }
         }
 
+        private void buttonRandomize_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            numericUpDownDmg1.Value = rnd.Next((int)numericUpDownDmg1.Maximum);
+            numericUpDownDmg2.Value = rnd.Next((int)numericUpDownDmg2.Maximum);
+            numericUpDownHP.Value = rnd.Next((int)numericUpDownHP.Maximum);
+            numericUpDownCopy.Value = rnd.Next((int)numericUpDownCopy.Maximum);
+            numericUpDownPalette.Value = rnd.Next((int)numericUpDownPalette.Maximum);
+        }
+
         private void numericUpDownDmg1_ValueChanged(object sender, EventArgs e)
         {
             WriteValueToSavedList();
@@ -92,6 +102,11 @@ namespace KatAM_Object_Editor
 
         void WriteValueToSavedList()
         {
+            if (listViewObjs.SelectedIndices.Count == 0)
+            {
+                return;
+            }
+
             foreach (List<int> paramObj in mainFormInstance.changedParams)
             {
                 if (paramObj[0] == listViewObjs.SelectedIndices[0])
